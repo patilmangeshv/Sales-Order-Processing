@@ -1,0 +1,191 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Sales order
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="closeClicked()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+  <div class="validations-form">
+    <app-dealer-name-strip [(isDataLoaded)]="commonData.dealer" [allowDealerChange]="false"></app-dealer-name-strip>
+
+    <div *ngIf="commonData.dealer && salesOrder">
+      <ion-list class="inputs-list" lines="full">
+        <ion-list-header>
+          <ion-label class="header-title">Customer details</ion-label>
+        </ion-list-header>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary">Order status: {{salesOrder.orderStatus}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-col>
+            Order no.: {{salesOrder.salesOrderNo}}
+          </ion-col>
+
+          <ion-col>
+            date: {{salesOrder.orderDate | date:'EE dd MMM yyyy'}}
+          </ion-col>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label>Order system date: {{salesOrder?.orderSystemDate | date:'EE dd MMM yyyy, h:mm a'}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Name:</ion-label>
+          <ion-input type="text" [(ngModel)]="salesOrder.customerDetails.customerName" readOnly>
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Mobile No.:</ion-label>
+          <ion-input type="phone" [(ngModel)]="salesOrder.customerDetails.mobileNo" readOnly>
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Pincode:</ion-label>
+          <ion-input [(ngModel)]="salesOrder.customerDetails.pincode" readOnly>
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Delivery address:</ion-label>
+          <ion-textarea [(ngModel)]="salesOrder.customerDetails.deliveryAddress" readOnly rows="2" cols="30">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating">Email:</ion-label>
+          <ion-input type="text" [(ngModel)]="salesOrder.customerDetails.email" readOnly inputmode="email">
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating">Narration:</ion-label>
+          <ion-input type="text" [(ngModel)]="salesOrder.narration" readOnly>
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating">Order inputed by:</ion-label>
+          <ion-input type="text" [(ngModel)]="salesOrder.userIDName" readOnly>
+          </ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-list class="inputs-list">
+        <ion-list-header>
+          <ion-label class="header-title">Items</ion-label>
+        </ion-list-header>
+      </ion-list>
+
+      <ion-card>
+        <ion-card-content class="total-display">
+          <ion-label>Qty: {{salesOrder.totalQty | number:'1.0-1'}} - Amt: {{salesOrder.totalAmt | number:'1.2-4'}}
+          </ion-label>
+        </ion-card-content>
+      </ion-card>
+
+      <ng-container *ngFor="let item of salesOrderItems?.orderItems">
+        <ion-card>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <img *ngIf="item.itemImageThumURL" [alt]="item.itemName" [src]="item.itemImageThumURL">
+              <img *ngIf="!item.itemImageThumURL" [alt]="item.itemName" src="../../../assets//icon//camera.png">
+            </ion-thumbnail>
+            <ion-label class="ion-text-wrap">{{item.itemName}} <br> {{item.externalCode1}}</ion-label>
+          </ion-item>
+          <!-- 
+          <ion-item>
+            <ion-label class="font-smaller" slot="start">@{{item.sellingPrice | number:'1.0-1'}} Amt.:
+              {{item.sellingPrice*item.quantity | number:'1.2-2'}}</ion-label>
+
+            <ion-col size="3">
+              <ion-label class="font-smaller">{{item.quantity| number:'1.0-2'}}</ion-label>
+            </ion-col>
+
+            <ion-col size="4">
+              <ion-label class="font-smaller">{{item.packageSize}}{{item.packageUnit}}</ion-label>
+            </ion-col>
+          </ion-item> -->
+
+          <ion-card-content>
+            <ion-row>
+              <!-- !-- sellingPrice --
+              <ng-container *ngIf="!item.wholesalePriceWithGST">
+                <ion-col>
+                  @{{item.sellingPrice | number:'1.2-4'}} Amt.:
+                  &#8377; {{item.sellingPrice*item.quantity | number:'1.2-4'}}
+                </ion-col>
+              </ng-container> -->
+
+              <!-- if isRetailer -->
+              <ng-container *ngIf="salesOrder.customerDetails.isRetailer; else showWholesalePrices">
+                <ion-col>
+                  @{{item.sellingPrice | number:'1.2-4'}} Amt.:
+                  &#8377; {{item.sellingPrice*item.quantity | number:'1.2-4'}}
+                </ion-col>
+              </ng-container>
+              <!-- else -->
+              <ng-template #showWholesalePrices>
+                <!-- wholesalePriceWithGST -->
+                <ng-container *ngIf="item.wholesalePriceWithGST && item.wholesalePriceWithGST>0; else showPriceWOGST">
+                  <ion-col>
+                    @{{item.wholesalePriceWithGST | number:'1.2-4'}} Amt.:
+                    &#8377; {{item.wholesalePriceWithGST*item.quantity | number:'1.2-4'}}
+                  </ion-col>
+                </ng-container>
+                <!-- wholesalePrice -->
+                <ng-template #showPriceWOGST>
+                  <ion-col>
+                    @{{item.wholesalePrice | number:'1.2-4'}} Amt.:
+                    &#8377; {{item.wholesalePrice*item.quantity | number:'1.2-4'}}
+                  </ion-col>
+                </ng-template>
+              </ng-template>
+
+              <ion-col size="3">
+                Qty:
+                <ion-text color="secondary">
+                  {{item.quantity| number:'1.0-2'}}
+                </ion-text>
+              </ion-col>
+              <ion-col size="3">
+                <ion-text color="secondary">
+                  {{item.packageSize}}{{item.packageUnit}}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+
+            <!-- GST & Cess % -->
+            <ng-container *ngIf="item.wholesaleBillPrice">
+              <ion-row>
+                <ion-col>
+                  GST: {{item.gst_pc | number:'1.0-2'}}% Cess: {{item.gcess_pc | number:'1.0-2'}}%
+                </ion-col>
+              </ion-row>
+            </ng-container>
+
+            <ion-row>
+              <ion-col>
+                <div [innerHTML]="item.itemDescription"></div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </div>
+  </div>
+</ion-content>

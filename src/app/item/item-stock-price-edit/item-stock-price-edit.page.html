@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goToItemList()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-title>
+            Item stock price
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="saveClicked()" [disabled]="!editItemForm.valid">
+                <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="deleteClicked()">
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>

@@ -1,0 +1,13 @@
+{
+  "appId": "app.mpapps.omst",
+  "appName": "Order master",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

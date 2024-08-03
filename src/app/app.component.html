@@ -1,0 +1,97 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" class="app-sidemenu" type="overlay">
+
+      <ion-header>
+        <!-- 1. Company & Logged in User details -->
+        <ion-toolbar>
+          <ion-row class="user-details-wrapper">
+            <!-- 1.1 Company logo -->
+            <ion-col size="4">
+              <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+                <app-image-shell *ngIf="commonData.dealer?.dealerLogoURL" class="user-avatar" animation="spinner"
+                  [src]="commonData.dealer.dealerLogoURL">
+                </app-image-shell>
+                <app-image-shell *ngIf="!commonData.dealer?.dealerLogoURL" class="user-avatar" animation="spinner"
+                  [src]="'./assets/icon/icon.png'">
+                </app-image-shell>
+              </app-aspect-ratio>
+            </ion-col>
+
+            <ion-col class="user-info-wrapper" size="8">
+              <h3 class="user-name">Order master</h3>
+
+              <!-- 1.2 User login info -->
+              <div *ngIf="authService.loggedInFirebaseUser">
+                <h5 class="user-handle" *ngIf="!authService.loggedInFirebaseUser?.isAnonymous">
+                  {{ authService.loggedInFirebaseUser?.email}}</h5>
+                <h5 class="user-handle" *ngIf="authService.loggedInFirebaseUser?.isAnonymous">Guest</h5>
+              </div>
+              <div *ngIf="!authService.loggedInFirebaseUser">
+                <h5 class="user-handle">Not logged in</h5>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- 1.3 Dealer/company details -->
+          <ion-row class="user-stats-wrapper user-details-wrapper">
+            <ion-col>
+              <span class="user-stat-name" *ngIf="commonData.dealer">{{commonData.dealer.dealerName}}</span>
+              <span class="user-stat-name" *ngIf="!commonData.dealer">Specifiy dealer</span>
+            </ion-col>
+            <!-- <ion-col>
+              <span class="user-stat-value">1553</span>
+              <span class="user-stat-name">Following</span>
+            </ion-col>
+            <ion-col>
+              <span class="user-stat-value">537</span>
+              <span class="user-stat-name">Followers</span>
+            </ion-col> -->
+          </ion-row>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <!-- 2. Build menu tree for logged in user or an anonymous user only, for non logged in user no menu to display-->
+        <ion-list id="menu-list" *ngIf="authService.loggedInFirebaseUser">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              *ngIf="authService.doesUserHasRole(commonData.dealer?.dealerID, p.accessibleToRoles)">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <!-- 3. Actions for login, sign up, logout -->
+        <ion-list id="labels-list">
+          <ion-col size="8">
+            <ion-note>ver. 1.7.4</ion-note>
+          </ion-col>
+
+          <ion-col>
+            <!-- MP Note -->
+            <!-- 3.1 Show "Sign up" for anonymous logged in user-->
+            <ion-button *ngIf="authService.loggedInFirebaseUser && authService.loggedInFirebaseUser?.isAnonymous"
+              size="small" fill="outline" [routerLink]="['auth/signup']">
+              <ion-icon slot="start" name="push"></ion-icon>Sign up
+            </ion-button>
+
+            <!-- 3.2 Show "Sign in" for non-logged in user-->
+            <ion-button *ngIf="!authService.loggedInFirebaseUser" size="small" fill="outline"
+              [routerLink]="['auth/login']">
+              <ion-icon slot="start" name="log-in"></ion-icon>Login
+            </ion-button>
+
+            <!-- 3.3 Show "Logout" for logged in user-->
+            <ion-button *ngIf="authService.loggedInFirebaseUser && !authService.loggedInFirebaseUser?.isAnonymous"
+              size="small" fill="outline" (click)="logoutClicked()">
+              <ion-icon slot="start" name="log-out"></ion-icon>Logout
+            </ion-button>
+          </ion-col>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

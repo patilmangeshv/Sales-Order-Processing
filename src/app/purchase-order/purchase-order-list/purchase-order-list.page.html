@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>
+            Purchase orders [{{recordCount | number:'1.0-2'}}]
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <app-dealer-name-strip #dealerNameStrip [(isDataLoaded)]="commonData.dealer" (dealerChanged)="dealerChanged()">
+    </app-dealer-name-strip>
+
+    <ion-searchbar color="light" animated autocomplete="on" placeholder="Search by Order no. or Order date"
+        (ionInput)="filterDataOnSearchText($event)">
+    </ion-searchbar>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="circles"
+            refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="showPurchaseOrderDetail(null)">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+    <div *ngIf="commonData.dealer">
+        <ng-container *ngIf="purchaseOrderList?.keys">
+            <ng-container *ngFor="let order of purchaseOrderList">
+                <ion-card color="light">
+                    <ion-card-header (click)="showPurchaseOrderDetail(order)">
+                        <ion-card-title class="ion-text-wrap">Order: {{order.orderNo}} -
+                            {{order.orderDate | date:'EE dd MMM yyyy'}}
+                        </ion-card-title>
+                        <ion-card-subtitle>
+                            Order entry date: {{order.stockDate | date:'EE dd MMM yyyy, h:mm a'}} <br>
+                            Total qty: {{order.totalQty | number:'1.0-2'}}, Amount: {{order.totalAmt | number:'1.2-2'}}
+                        </ion-card-subtitle>
+                    </ion-card-header>
+                </ion-card>
+            </ng-container>
+        </ng-container>
+    </div>
+</ion-content>

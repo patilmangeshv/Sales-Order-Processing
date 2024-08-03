@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      Upload data
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-dealer-name-strip [(isDataLoaded)]="commonData.dealer"></app-dealer-name-strip>
+
+  <!-- Available Events -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Type of data</ion-card-subtitle>
+      <ion-card-title>
+        <ion-select #eventID interface="popover" color="primary" placeholder="Select type for importing data"
+          (ionChange)="typeSelected($event.detail)">
+          <ion-select-option value="C">Customers</ion-select-option>
+          <ion-select-option value="I">Items</ion-select-option>
+          <ion-select-option value="A">Areas</ion-select-option>
+          <ion-select-option value="U">Users</ion-select-option>
+          <ion-select-option value="UA">Areas to Users</ion-select-option>
+        </ion-select>
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  <!-- data file to upload -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Select data file</ion-card-subtitle>
+      <ion-card-title>
+        <input [disabled]="!_fileTypeSelected" type="file" #fileImportInput id="fileImportInput" accept=".txt"
+          (change)="fileChangeListener($event)" />
+      </ion-card-title>
+
+      <!-- _fileStatus -->
+      <!-- <ion-card-content *ngIf="_fileStatus!=''"> -->
+      <ion-card-content>
+        <ion-icon name="information-circle" slot="start" color="success"></ion-icon>
+        <ion-label>{{_fileStatus}}</ion-label>
+      </ion-card-content>
+      <!-- _fileUploadStatus -->
+      <!-- <ion-card-content *ngIf="_fileUploadStatus!=''"> -->
+      <ion-card-content>
+        <ion-icon name="information-circle" slot="start" [color]="_fileUploadStatusColor"></ion-icon>
+        <ion-label>{{_fileUploadStatus}}</ion-label>
+      </ion-card-content>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Send messages for</ion-card-subtitle> -->
+      <ion-card-title>
+        <ion-col>
+          <ion-button fill="outline" (click)="uploadData2DB()" [disabled]="!_isValid">
+            Upload data</ion-button>
+        </ion-col>
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,5 @@
+^*004^	^RAJENDRA ""SINGH^	0	^patil.mangesh.v@outlook.com^	F
+^A001^	^VIVEK GUPTA^	0	^^	F
+^A002^	^Piyush Lalan^	0	^mpapps.app@gmail.com^	F
+^A003^	^CounterSale^	0	^dharamrahul@gmail.com^	F
+^A005^	^CO'SR^	0	^^	F

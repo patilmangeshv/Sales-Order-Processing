@@ -1,0 +1,300 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-back-button slot="start" defaultHref="/items"></ion-back-button>
+    <ion-title>
+      Item details
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+  <app-dealer-name-strip [(isDataLoaded)]="isDataLoaded" [allowDealerChange]="false"></app-dealer-name-strip>
+
+  <form *ngIf="isDataLoaded" class="validations-form" [formGroup]="itemDetailForm">
+    <div *ngIf="commonData.dealer">
+      <ion-list class="inputs-list" lines="full">
+        <ion-list-header>
+          <ion-label class="header-title">Item details</ion-label>
+
+          <ion-button *ngIf="!editItemMode" (click)="editClicked()">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="editItemMode" (click)="saveClicked()" [disabled]="!itemDetailForm.valid">
+            <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="deleteClicked()">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-list-header>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Name:</ion-label>
+          <ion-input type="text" formControlName="itemName" clearInput>
+          </ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.itemName">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('itemName').hasError(validation.type) && (itemDetailForm.get('itemName').dirty || itemDetailForm.get('itemName').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Description:</ion-label>
+          <ion-textarea formControlName="itemDescription" clearInput rows="3" cols="30"></ion-textarea>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.itemDescription">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('itemDescription').hasError(validation.type) && (itemDetailForm.get('itemDescription').dirty || itemDetailForm.get('itemDescription').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Category:</ion-label>
+
+          <ion-select formControlName="category" interface="popover">
+            <ion-select-option *ngFor="let category of categories" [value]="category.categoryName">
+              {{category.categoryName}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.category">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('category').hasError(validation.type) && (itemDetailForm.get('category').dirty || itemDetailForm.get('category').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Manufacturer:</ion-label>
+          <ion-select formControlName="manufacturer" interface="popover">
+            <ion-select-option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.manufacturerName">
+              {{manufacturer.manufacturerName}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.manufacturer">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('manufacturer').hasError(validation.type) && (itemDetailForm.get('manufacturer').dirty || itemDetailForm.get('manufacturer').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label position="floating">Thumnail Image:</ion-label>
+          <ion-input type="text" formControlName="itemImageThumURL"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating">Images:</ion-label>
+          <ion-input type="text" formControlName="itemImageURLs"></ion-input>
+        </ion-item>
+
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Upload file?</ion-label>
+          <ion-toggle color="secondary" formControlName="canUploadFile"></ion-toggle>
+        </ion-item>
+
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Stock maintained?</ion-label>
+          <ion-toggle color="secondary" formControlName="stockMaintained"></ion-toggle>
+        </ion-item>
+
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Active?</ion-label>
+          <ion-toggle color="secondary" formControlName="isActive"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <ion-list class="inputs-list">
+        <ion-list-header>
+          <ion-label class="header-title">Packages</ion-label>
+
+          <!-- Add Package button -->
+          <ion-button (click)="addItemPackageClicked()" [disabled]="!itemDetailForm.valid">
+            <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-list-header>
+      </ion-list>
+
+      <!-- itemPackages sub -->
+      <ng-container formArrayName="itemPackages">
+        <ng-container *ngFor="let item of itemPackagesControlArray.controls; let i=index" [formGroupName]="i">
+          <ion-card>
+            <ion-item lines="none">
+              <ion-label slot="start" class="font-small">
+                {{item.value.packageSize}} {{item.value.packageUnit}}
+              </ion-label>
+
+              <ion-buttons slot="end">
+                <ion-button (click)="showDetailFormClicked(item.value, i)" size="small">
+                  <ion-icon *ngIf="item.value.showDetailForm" name="chevron-up-circle-outline"></ion-icon>
+                  <ion-icon *ngIf="!item.value.showDetailForm" name="chevron-down-circle-outline"></ion-icon>
+                </ion-button>
+
+                <!-- Edit item package button -->
+                <ion-button *ngIf="!item.value.editItemPackageMode" (click)="editPackageClicked(item)" size="small">
+                  <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                </ion-button>
+
+                <ng-container *ngIf="item.value.editItemPackageMode">
+                  <!-- Save item packcage button -->
+                  <ion-button (click)="savePackageClicked(item, i)" [disabled]="!itemDetailForm.valid" size="small">
+                    <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+                  </ion-button>
+
+                  <!-- Discard item package button -->
+                  <!-- <ion-button (click)="discardPackageClicked(item.value)">
+                    <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+                  </ion-button> -->
+                </ng-container>
+
+                <!-- Delete item package button -->
+                <ion-button (click)="deletePackageClicked(i)" size="small">
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+
+            <!-- packageSize -->
+            <ion-item class="input-item font-small">
+              <ion-label position="floating"><span class="mandatory-field">*</span>Package size:</ion-label>
+              <ion-input type="text" inputmode="numeric" formControlName="packageSize"
+                (ionChange)="packageSizeUnitChanged(item.value, i)" clearInput>
+              </ion-input>
+            </ion-item>
+            <div class="error-container">
+              <ng-container *ngFor="let validation of validations.packageSize">
+                <div class="error-message"
+                  *ngIf="itemPackagesControlArray.controls[i].get('packageSize').hasError(validation.type) && (itemPackagesControlArray.controls[i].get('packageSize').dirty || itemPackagesControlArray.controls[i].get('packageSize').touched)">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <span>{{ validation.message }}</span>
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- packageUnit -->
+            <ion-item class="input-item font-small">
+              <ion-label position="floating"><span class="mandatory-field">*</span>Package unit:</ion-label>
+              <ion-select formControlName="packageUnit" (ionChange)="packageSizeUnitChanged(item.value, i)"
+                interface="popover">
+                <ion-select-option *ngFor="let unit of packageUnits" [value]="unit.value">
+                  {{unit.value}} - {{unit.description}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div class="error-container">
+              <ng-container *ngFor="let validation of validations.packageUnit">
+                <div class="error-message"
+                  *ngIf="itemPackagesControlArray.controls[i].get('packageUnit').hasError(validation.type) && (itemPackagesControlArray.controls[i].get('packageUnit').dirty || itemPackagesControlArray.controls[i].get('packageUnit').touched)">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <span>{{ validation.message }}</span>
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Show below fields if showDetailForm=true -->
+            <!-- MP Note div is used instead of ng-container as ng-container removes components from DOM whereas div-hidden will just hide the components  -->
+            <div [hidden]="!item.value.showDetailForm">
+              <!-- itemName -->
+              <ion-item class="input-item font-small">
+                <ion-label position="floating"><span class="mandatory-field">*</span>Package item name:</ion-label>
+                <ion-input type="text" formControlName="itemName" clearInput>
+                </ion-input>
+              </ion-item>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.itemName">
+                  <div class="error-message"
+                    *ngIf="itemPackagesControlArray.controls[i].get('itemName').hasError(validation.type) && (itemPackagesControlArray.controls[i].get('itemName').dirty || itemPackagesControlArray.controls[i].get('itemName').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <!-- itemDescription -->
+              <ion-item class="input-item font-small">
+                <ion-label position="floating"><span class="mandatory-field">*</span>Package item description:
+                </ion-label>
+                <ion-textarea formControlName="itemDescription" clearInput rows="3" cols="30"></ion-textarea>
+              </ion-item>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.itemDescription">
+                  <div class="error-message"
+                    *ngIf="itemPackagesControlArray.controls[i].get('itemDescription').hasError(validation.type) && (itemPackagesControlArray.controls[i].get('itemDescription').dirty || itemPackagesControlArray.controls[i].get('itemDescription').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <!-- itemImageThumURL -->
+              <ion-item class="input-item font-small">
+                <ion-label position="floating">Thumnail Image:</ion-label>
+                <ion-input type="text" formControlName="itemImageThumURL" clearInput>
+                </ion-input>
+              </ion-item>
+              <!-- <div class="error-container">
+                <ng-container *ngFor="let validation of validations.itemImageThumURL">
+                  <div class="error-message"
+                    *ngIf="itemPackagesControlArray.controls[i].get('itemImageThumURL').hasError(validation.type) && (itemPackagesControlArray.controls[i].get('itemImageThumURL').dirty || itemPackagesControlArray.controls[i].get('itemImageThumURL').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div> -->
+
+              <!-- itemImageURLs -->
+              <ion-item class="input-item font-small">
+                <ion-label position="floating">Item images:</ion-label>
+                <ion-input type="text" formControlName="itemImageURLs" clearInput>
+                </ion-input>
+              </ion-item>
+              <!-- <div class="error-container">
+                <ng-container *ngFor="let validation of validations.itemImageURLs">
+                  <div class="error-message"
+                    *ngIf="itemPackagesControlArray.controls[i].get('itemImageURLs').hasError(validation.type) && (itemPackagesControlArray.controls[i].get('itemImageURLs').dirty || itemPackagesControlArray.controls[i].get('itemImageURLs').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div> -->
+
+              <!-- isActive -->
+              <ion-item class="toggle-item font-small">
+                <ion-label class="toggle-label">Active?</ion-label>
+                <ion-toggle color="secondary" formControlName="isActive"></ion-toggle>
+              </ion-item>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.isActive">
+                  <div class="error-message"
+                    *ngIf="itemPackagesControlArray.controls[i].get('isActive').hasError(validation.type) && (itemPackagesControlArray.controls[i].get('isActive').dirty || itemPackagesControlArray.controls[i].get('isActive').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </ion-card>
+        </ng-container>
+      </ng-container>
+
+      <!-- Print forms value and state -->
+      <div>
+        {{itemDetailForm.valid | json}} <br>
+        {{itemDetailForm.status | json}} <br>
+        {{itemDetailForm.value | json}}
+      </div>
+    </div>
+  </form>
+</ion-content>

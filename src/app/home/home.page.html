@@ -1,0 +1,347 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      Order master
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+  <app-dealer-name-strip #dealerNameStrip [(isDataLoaded)]="isDataLoaded"></app-dealer-name-strip>
+
+  <form *ngIf="isDataLoaded" class="validations-form" [formGroup]="validationsForm"
+    (ngSubmit)="onSubmit(validationsForm.value)">
+
+    <div *ngIf="commonData.dealer">
+      <ion-list class="inputs-list" lines="full">
+        <ion-list-header>
+          <ion-col>
+            <ion-label class="header-title">Customer details</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-button (click)="showCustomerListClicked()"
+              *ngIf="commonData.dealer && commonData.dealer.hasExternalSystem">
+              <ion-icon name="search" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-list-header>
+
+        <!-- orderDate -->
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Order date:</ion-label>
+          <ion-input type="date" formControlName="orderDate" autocomplete="doNotAutoComplete" clearInput>
+          </ion-input>
+          <!-- <ion-datetime formControlName="orderDate" displayFormat="DDD MMM D, YYYY" pickerFormat="DDD MMM D, YYYY" clearInput></ion-datetime> -->
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.orderDate">
+            <div class="error-message"
+              *ngIf="validationsForm.get('orderDate').hasError(validation.type) && (validationsForm.get('orderDate').dirty || validationsForm.get('orderDate').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- customerName -->
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Name:</ion-label>
+          <ion-input type="text" formControlName="customerName" autofocus="true" autocomplete="doNotAutoComplete"
+            clearInput>
+          </ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.customerName">
+            <div class="error-message"
+              *ngIf="validationsForm.get('customerName').hasError(validation.type) && (validationsForm.get('customerName').dirty || validationsForm.get('customerName').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- mobileNo -->
+        <!-- <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Mobile No.:</ion-label>
+          <ion-input type="number" inputmode="numeric" formControlName="mobileNo" autocomplete="doNotAutoComplete"
+            clearInput>
+          </ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.mobileNo">
+            <div class="error-message"
+              *ngIf="validationsForm.get('mobileNo').hasError(validation.type) && (validationsForm.get('mobileNo').dirty || validationsForm.get('mobileNo').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div> -->
+
+        <!-- pincode -->
+        <!-- <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Pincode:</ion-label>
+          <ion-input type="number" inputmode="numeric" formControlName="pincode" autocomplete="doNotAutoComplete"
+            clearInput></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.pincode">
+            <div class="error-message"
+              *ngIf="validationsForm.get('pincode').hasError(validation.type) && (validationsForm.get('pincode').dirty || validationsForm.get('pincode').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div> -->
+
+        <!-- deliveryAddress -->
+        <!-- <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Delivery address:</ion-label>
+          <ion-textarea formControlName="deliveryAddress" autocomplete="doNotAutoComplete" clearInput rows="2"
+            cols="30"></ion-textarea>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.deliveryAddress">
+            <div class="error-message"
+              *ngIf="validationsForm.get('deliveryAddress').hasError(validation.type) && (validationsForm.get('deliveryAddress').dirty || validationsForm.get('deliveryAddress').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div> -->
+
+        <!-- email -->
+        <!-- <ion-item class="input-item">
+          <ion-label position="floating">Email:</ion-label>
+          <ion-input type="text" formControlName="email" autocomplete="doNotAutoComplete" clearInput inputmode="email">
+          </ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.email">
+            <div class="error-message"
+              *ngIf="validationsForm.get('email').hasError(validation.type) && (validationsForm.get('email').dirty || validationsForm.get('email').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div> -->
+
+        <!-- gstNo -->
+        <!-- <ion-item class="input-item">
+          <ion-label position="floating">GST No.:</ion-label>
+          <ion-input type="text" formControlName="gstNo" autocomplete="doNotAutoComplete" clearInput>
+          </ion-input>
+        </ion-item> -->
+
+        <!-- foodLicenseNo -->
+        <!-- <ion-item class="input-item">
+          <ion-label position="floating">Food License No:</ion-label>
+          <ion-input type="text" formControlName="foodLicenseNo" autocomplete="doNotAutoComplete" clearInput>
+          </ion-input>
+        </ion-item> -->
+
+        <!-- narration -->
+        <ion-item class="input-item">
+          <ion-label position="floating">Narration:</ion-label>
+          <ion-textarea formControlName="narration" autocomplete="doNotAutoComplete" clearInput rows="2" cols="30">
+          </ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <ion-list class="inputs-list">
+        <ion-list-header>
+          <ion-label class="header-title">Items</ion-label>
+          <ion-button (click)="addItemClicked()">
+            <ion-icon name="add-circle-outline" color="secondary" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-list-header>
+      </ion-list>
+
+      <ion-card>
+        <ion-card-content class="total-display">
+          <ion-label>Qty: {{totalQty | number:'1.0-1'}} - Amt: {{totalAmt | number:'1.2-4'}}</ion-label>
+        </ion-card-content>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.orderItems">
+            <div class="error-message"
+              *ngIf="validationsForm.get('orderItems').hasError(validation.type) && (validationsForm.get('orderItems').dirty || validationsForm.get('orderItems').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </ion-card>
+
+      <ng-container formArrayName="orderItems">
+        <ng-container *ngFor="let item of orderItemsControlArray.controls; let i=index" [formGroupName]="i">
+          <ion-card>
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <img *ngIf="item.value.item.itemImageThumURL" [alt]="item.value.item.itemName"
+                  [src]="item.value.item.itemImageThumURL">
+                <img *ngIf="!item.value.item.itemImageThumURL" [alt]="item.value.item.itemName"
+                  src="../../../assets//icon//camera.png">
+              </ion-thumbnail>
+              <ion-label class="ion-text-wrap">{{item.value.item.itemName}} <br> {{item.value.item.externalCode1}}
+              </ion-label>
+
+              <ion-buttons slot="end">
+                <!-- Favorite Icon -->
+                <ng-container>
+                  <ion-icon name="heart" *ngIf="item.value.item.isFavorite" size="large"
+                    (click)="itemFavoriteFlag(item.value.item)" color="secondary">
+                  </ion-icon>
+                  <ion-icon name="heart-outline" *ngIf="!item.value.item.isFavorite" size="large"
+                    (click)="itemFavoriteFlag(item.value.item)" color="secondary"></ion-icon>
+                </ng-container>
+
+                <!-- Remove item Icon -->
+                <ion-icon name="close-circle-outline" color="secondary" size="large" (click)="removeItemClicked(i)">
+                </ion-icon>
+              </ion-buttons>
+            </ion-item>
+
+            <ion-item lines="none">
+              <!-- Show mrp as strikethrough(</del>) if it is greater than sellingPrice in red color -->
+              <!-- Rs symbol &#8377; -->
+              <!-- 
+                NOTE: Below block should be consider whenever we will have identification of wholesaler or retailer customer logic
+                
+                <ng-container *ngIf="!item.value.item.wholesalePriceWithGST">
+                !-- mrp --
+                <ion-label *ngIf="item.value.item.mrp>item.value.item.sellingPrice" class="font-smaller" slot="start">
+                  <del>S1: &#8377; {{item.value.item.mrp | number:'1.2-4'}}</del>
+                  <ion-text color="danger"> &#8377; {{item.value.item.sellingPrice | number:'1.2-4'}}</ion-text>
+                </ion-label>
+
+                !-- sellingPrice --
+                <ion-label *ngIf="item.value.item.mrp<=item.value.item.sellingPrice" class="font-smaller" slot="start">
+                  S2: &#8377; {{item.value.item.sellingPrice | number:'1.2-4'}}
+                </ion-label>
+              </ng-container> -->
+
+              <!-- if isRetailCustomer -->
+              <ng-container *ngIf="_isRetailCustomer; else showWholesalePrices">
+                <!-- sellingPrice -->
+                <ion-label *ngIf="item.value.item.mrp>item.value.item.sellingPrice; else showOnlyPrice1"
+                  class="font-smaller" slot="start">
+                  <del>&#8377; {{item.value.item.mrp | number:'1.2-4'}}</del>
+                  <ion-text color="danger"> &#8377; {{item.value.item.sellingPrice | number:'1.2-4'}}</ion-text>
+                </ion-label>
+                <ng-template #showOnlyPrice1>
+                  <ion-label class="font-smaller" slot="start">
+                    &#8377; {{item.value.item.sellingPrice | number:'1.2-4'}}
+                  </ion-label>
+                </ng-template>
+              </ng-container>
+              <!-- else -->
+              <ng-template #showWholesalePrices>
+                <ng-container *ngIf="item.value.item.wholesaleBillPrice && item.value.item.wholesaleBillPrice>0">
+                  <!-- wholesaleBillPrice -->
+                  <ion-label *ngIf="item.value.item.mrp>item.value.item.wholesaleBillPrice; else showOnlyPrice"
+                    class="font-smaller" slot="start">
+                    <del>&#8377; {{item.value.item.mrp | number:'1.2-4'}}</del>
+                    <ion-text color="danger"> &#8377; {{item.value.item.wholesaleBillPrice | number:'1.2-4'}}</ion-text>
+                  </ion-label>
+                  <ng-template #showOnlyPrice>
+                    <ion-label class="font-smaller" slot="start">
+                      &#8377; {{item.value.item.wholesaleBillPrice | number:'1.2-4'}}
+                    </ion-label>
+                  </ng-template>
+                </ng-container>
+              </ng-template>
+
+              <!-- quantity -->
+              <ion-col size="3">
+                <ion-input type="number" inputmode="numeric" class="font-small" formControlName="quantity"
+                  autocomplete="doNotAutoComplete"></ion-input>
+              </ion-col>
+
+              <ion-col size="4">
+                <ion-label class="font-small">{{item.value.item.packageSize}} {{item.value.item.packageUnit}}
+                </ion-label>
+              </ion-col>
+            </ion-item>
+
+            <!-- Regular quantity validation -->
+            <div class="error-container">
+              <ng-container *ngFor="let validation of validations.quantity">
+                <div class="error-message"
+                  *ngIf="orderItemsControlArray.controls[i].get('quantity').hasError(validation.type) && (orderItemsControlArray.controls[i].get('quantity').dirty || orderItemsControlArray.controls[i].get('quantity').touched)">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <span>{{validation.message}}</span>
+                </div>
+              </ng-container>
+            </div>
+            <!-- Custom Quantity validation with balance qty -->
+            <div class="error-container">
+              <ng-container
+                *ngIf="orderItemsControlArray.controls[i].errors?.qtyExceedsBalQtyValidator && (orderItemsControlArray.controls[i].touched || orderItemsControlArray.controls[i].dirty)">
+                <div class="error-message">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <span>Quantity exceeds balance quantity ({{item.value.item.balanceQty}}).</span>
+                </div>
+              </ng-container>
+            </div>
+
+            <ion-card-content>
+              <ion-text
+                *ngIf="item.value.item.stockMaintained && item.value.item.balanceQty<item.value.item.stockMinimumQty && item.value.item.balanceQty>0"
+                color="danger" class="font-small">Only {{item.value.item.balanceQty}} left.
+              </ion-text>
+              <ion-text *ngIf="item.value.item.stockMaintained && item.value.item.balanceQty<=0" color="danger"
+                class="font-small">Currently unavailable.
+              </ion-text>
+              <ion-text
+                *ngIf="!item.value.item.stockMaintained || item.value.item.balanceQty>item.value.item.stockMinimumQty"
+                color="success" class="font-small">In stock.
+              </ion-text><br>
+
+              <!-- Amount -->
+              <!-- <ng-container *ngIf="!item.value.item.wholesalePriceWithGST">
+                <ion-text class="font-small" slot="start">
+                  Amt.: &#8377; {{item.value.item.sellingPrice*item.value.quantity | number:'1.2-4'}}
+                </ion-text>
+              </ng-container> -->
+
+              <!-- if isRetailCustomer -->
+              <ng-container *ngIf="_isRetailCustomer; else showWholesaleAmt">
+                <ion-text class="font-small" slot="start">
+                  Amt.: &#8377; {{item.value.item.sellingPrice*item.value.quantity | number:'1.2-4'}}
+                </ion-text>
+              </ng-container>
+              <!-- else -->
+              <ng-template #showWholesaleAmt>
+                <ng-container *ngIf="item.value.item.wholesaleBillPrice && item.value.item.wholesaleBillPrice>0">
+                  <ion-text class="font-small" slot="start">
+                    Amt.: &#8377; {{item.value.item.wholesaleBillPrice*item.value.quantity | number:'1.2-4'}}
+                  </ion-text>
+                </ng-container>
+              </ng-template>
+
+              <br>
+              <div [innerHTML]="item.value.item.itemDescription"></div>
+            </ion-card-content>
+          </ion-card>
+        </ng-container>
+      </ng-container>
+
+      <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid">
+        Submit</ion-button>
+
+      <div class="alert dealer-instructions" *ngIf="commonData.dealer">
+        <ion-label>{{commonData.dealer.instructions}}</ion-label>
+      </div>
+      <!-- <ion-footer>
+        <ion-toolbar>
+          <ion-title>
+            Footer
+          </ion-title>
+        </ion-toolbar>
+      </ion-footer> -->
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,359 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "category",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "categoryName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "customer",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "areaCode",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "customer",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "customerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "customer",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "item",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isDeleted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "itemName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "itemPackage",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isDeleted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "itemID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "itemName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "itemPackage",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "isDeleted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "itemPackageID",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "itemStockPrice",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "itemName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "itemStockPrice",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "itemName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "manufacturer",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "manufacturerName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "purchaseOrder",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "stockDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "salesOrder",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderDate",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.pincode",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.mobileNo",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "salesOrder",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderDate",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.pincode",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.mobileNo",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "salesOrder",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "salesOrderNo",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.pincode",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.mobileNo",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "salesOrder",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderSystemDate",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "salesOrder",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "userID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderDate",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.pincode",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.mobileNo",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "salesOrder",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dealerID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "userID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orderStatus",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "salesOrderNo",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.pincode",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "customerDetails.mobileNo",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

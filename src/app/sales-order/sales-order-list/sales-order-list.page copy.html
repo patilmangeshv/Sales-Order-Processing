@@ -1,0 +1,153 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>
+            Total orders: {{recordCount}}
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button fill="outline" [disabled]="!salesOrderListForm.valid" (click)="saveClicked()">
+                <ion-icon name="save"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+
+<!-- <div class="alert alert-success">
+        <ion-label>Select the items to order. Quantity can be changed on order screen.</ion-label>
+    </div> -->
+
+<ion-content>
+    <app-dealer-name-strip [(isDataLoaded)]="commonData.dealer" [allowDealerChange]="false"></app-dealer-name-strip>
+
+    <ion-searchbar color="light" animated autocomplete="on" placeholder="Search by name or mobile number"
+        (ionInput)="filterDataOnSearchText($event)">
+    </ion-searchbar>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="circles"
+            refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="commonData.dealer">
+        <form class="validations-form" [formGroup]="salesOrderListForm">
+            <ion-item-group *ngFor="let status of orderStatusInfo">
+                <ion-item-divider [class]="status.color" (click)="showHideOrders(status)">
+                    <ion-icon *ngIf="status.showOrders" slot="start" name="chevron-down-outline"></ion-icon>
+                    <ion-icon *ngIf="!status.showOrders" slot="start" name="chevron-up-outline"></ion-icon>
+                    <ion-label>{{status.text}}</ion-label>
+                </ion-item-divider>
+
+                <ng-container *ngIf="salesOrderControlArray.controls?.length>0" formArrayName="salesOrderForm">
+                    <ng-container *ngFor="let order of salesOrderControlArray.controls; let i=index"
+                        [formGroupName]="i">
+                        <ng-container *ngIf="order.value.orderStatus == status.orderStatus">
+                            <ng-container *ngIf="order.value.isMatchesFilter">
+                                <ion-card color="light">
+                                    <ion-card-header>
+                                        <ion-card-title class="ion-text-wrap">{{order.value.customerName}}
+                                        </ion-card-title>
+                                        <ion-card-subtitle>M:{{order.value.mobileNo}} Pin:{{order.value.pincode}}
+                                        </ion-card-subtitle>
+                                    </ion-card-header>
+
+                                    <ion-card-content>
+                                        <ion-row>
+                                            <ion-col>
+                                                Order date: <ion-text color="secondary">
+                                                    {{order.value.orderDate | date:'EE dd MMM yyyy'}}</ion-text>
+                                            </ion-col>
+                                        </ion-row>
+
+                                        <ion-row>
+                                            <ion-col size="6">
+                                                Amount: <ion-text color="secondary">
+                                                    {{order.value.totalAmt | number:'1.2-2'}}
+                                                </ion-text>
+                                            </ion-col>
+                                            <ion-col size="6">
+                                                Qty: <ion-text color="secondary">
+                                                    {{order.value.totalQty | number:'1.0-2'}}
+                                                </ion-text>
+                                            </ion-col>
+                                        </ion-row>
+
+                                        <ion-item color="light" lines="none">
+                                            <ion-label>Order status</ion-label>
+                                            <ion-select [interfaceOptions]="customPopoverStatusOptions"
+                                                formControlName="orderStatus" interface="popover"
+                                                placeholder="Select status">
+                                                <ion-select-option value="pending">Pending</ion-select-option>
+                                                <ion-select-option value="dispatched">Dispatched</ion-select-option>
+                                                <ion-select-option value="delivered">Delivered</ion-select-option>
+                                                <ion-select-option value="paymentreceived">Payment received
+                                                </ion-select-option>
+                                                <ion-select-option value="cancelled">Cancelled</ion-select-option>
+                                            </ion-select>
+                                        </ion-item>
+                                    </ion-card-content>
+                                </ion-card>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ion-item-group>
+            <!-- 
+            <ng-container *ngIf="salesOrderControlArray.controls?.length>0" formArrayName="salesOrderForm">
+                <ion-card color="light" *ngFor="let order of salesOrderControlArray.controls; let i=index"
+                    [formGroupName]="i">
+                    <ng-container *ngIf="order.value.isMatchesFilter">
+                        <ion-card-header>
+                            <ion-card-title class="ion-text-wrap">{{order.value.customerName}}</ion-card-title>
+                            <ion-card-subtitle>M:{{order.value.mobileNo}} A:{{order.value.pincode}}
+                            </ion-card-subtitle>
+                        </ion-card-header>
+
+                        <ion-card-content>
+                            <ion-row>
+                                <ion-col>
+                                    Order date: <ion-text color="secondary">
+                                        {{order.value.orderDate | date:'EE dd MMM yyyy'}}</ion-text>
+                                </ion-col>
+                            </ion-row>
+
+                            <ion-row>
+                                <ion-col size="6">
+                                    Amount: <ion-text color="secondary">{{order.value.totalAmt | number:'1.2-2'}}
+                                    </ion-text>
+                                </ion-col>
+                                <ion-col size="6">
+                                    Qty: <ion-text color="secondary">{{order.value.totalQty | number:'1.0-2'}}
+                                    </ion-text>
+                                </ion-col>
+                            </ion-row>
+
+                            <ion-item color="light" lines="none">
+                                <ion-label>Order status</ion-label>
+                                <ion-select [interfaceOptions]="customPopoverStatusOptions"
+                                    formControlName="orderStatus" interface="popover" placeholder="Select status">
+                                    <ion-select-option value="pending">Pending</ion-select-option>
+                                    <ion-select-option value="dispatched">Dispatched</ion-select-option>
+                                    <ion-select-option value="delivered">Delivered</ion-select-option>
+                                    <ion-select-option value="paymentreceived">Payment received</ion-select-option>
+                                    <ion-select-option value="cancelled">Cancelled</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-card-content>
+                    </ng-container>
+                </ion-card>
+            </ng-container> -->
+            <!-- 
+            <ion-item-divider color="warning">
+                <ion-label>Shipped orders</ion-label>
+            </ion-item-divider>
+
+            <ion-item-divider color="success">
+                <ion-label>Delivered orders</ion-label>
+            </ion-item-divider> -->
+        </form>
+    </div>
+</ion-content>

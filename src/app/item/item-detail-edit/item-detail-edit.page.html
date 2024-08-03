@@ -1,0 +1,157 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToItemList()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>
+      Item details
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="saveClicked()" [disabled]="!itemDetailForm.valid">
+        <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteClicked()" [disabled]="formMode=='NEW'">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+  <app-dealer-name-strip [(isDataLoaded)]="isDataLoaded" [allowDealerChange]="false"></app-dealer-name-strip>
+
+  <form *ngIf="isDataLoaded" class="validations-form" [formGroup]="itemDetailForm">
+    <div *ngIf="commonData.dealer">
+      <ion-list class="inputs-list" lines="full">
+        <ion-list-header>
+          <ion-label class="header-title">Item details</ion-label>
+        </ion-list-header>
+
+        <!-- itemName -->
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Name:</ion-label>
+          <ion-input type="text" formControlName="itemName" clearInput autofocus="true">
+          </ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.itemName">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('itemName').hasError(validation.type) && (itemDetailForm.get('itemName').dirty || itemDetailForm.get('itemName').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- itemDescription -->
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Description:</ion-label>
+          <ion-textarea formControlName="itemDescription" clearInput rows="3" cols="30"></ion-textarea>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.itemDescription">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('itemDescription').hasError(validation.type) && (itemDetailForm.get('itemDescription').dirty || itemDetailForm.get('itemDescription').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- category -->
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Category:</ion-label>
+
+          <ion-select formControlName="category" interface="popover">
+            <ion-select-option *ngFor="let category of categories" [value]="category.categoryName">
+              {{category.categoryName}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.category">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('category').hasError(validation.type) && (itemDetailForm.get('category').dirty || itemDetailForm.get('category').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- manufacturer -->
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Manufacturer:</ion-label>
+          <ion-select formControlName="manufacturer" interface="popover">
+            <ion-select-option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.manufacturerName">
+              {{manufacturer.manufacturerName}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.manufacturer">
+            <div class="error-message"
+              *ngIf="itemDetailForm.get('manufacturer').hasError(validation.type) && (itemDetailForm.get('manufacturer').dirty || itemDetailForm.get('manufacturer').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- itemImageThumURL -->
+        <ion-item class="input-item">
+          <ion-label>Thumnail Image:</ion-label>
+          <!-- <ion-input type="text" formControlName="itemImageThumURL"></ion-input> -->
+          <ion-thumbnail slot="start">
+            <img #itemImageThum>
+          </ion-thumbnail>
+
+          <!-- hidden file input control -->
+          <input type="file" class="hidden" #fileSelector value="" accept="image/*"
+            (change)="fileChangeListener($event)" />
+
+          <ion-button (click)="fileSelectClicked()" shape="round" fill="outline" color="danger" size="small"
+            expand="full">Select</ion-button>
+          <ion-button (click)="fileRemoveClicked()" shape="round" fill="outline" color="danger" size="small"
+            expand="full">Remove</ion-button>
+        </ion-item>
+
+        <!-- itemImageURLs -->
+        <!-- <ion-item class="input-item">
+          <ion-label position="floating">Images:</ion-label>
+          <ion-input type="text" formControlName="itemImageURLs"></ion-input>
+        </ion-item> -->
+
+        <!-- canUploadFile -->
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Upload document?</ion-label>
+          <ion-toggle color="secondary" formControlName="canUploadFile"></ion-toggle>
+        </ion-item>
+        <!-- <div>
+          <ion-note>*Customer is allowed to upload a document while ordering a item such as a document to be printed/xeroxed.</ion-note>
+        </div> -->
+
+        <!-- stockMaintained -->
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Stock maintained?</ion-label>
+          <ion-toggle color="secondary" formControlName="stockMaintained"></ion-toggle>
+        </ion-item>
+
+        <!-- isActive -->
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Active?</ion-label>
+          <ion-toggle color="secondary" formControlName="isActive"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <!-- Print forms value and state -->
+      <!-- 
+      <div>
+        {{itemDetailForm.valid | json}} <br>
+        {{itemDetailForm.status | json}} <br>
+        {{itemDetailForm.value | json}}
+      </div> -->
+    </div>
+  </form>
+</ion-content>

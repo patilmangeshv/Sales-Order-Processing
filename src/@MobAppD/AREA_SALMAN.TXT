@@ -1,0 +1,10 @@
+3	^operator@gmail.com^	^^
+3	^dharamrahul@yahoo.co.in^	^01+02+05+06+^
+3	^manager@gmail.com^	^09+^
+3	^patil.mangesh.v@gmail.com^	^05+06+^
+3	^admin@gmail.com^	^^
+3	^^	^^
+3	^^	^^
+3	^^	^^
+3	^^	^^
+3	^^	^^

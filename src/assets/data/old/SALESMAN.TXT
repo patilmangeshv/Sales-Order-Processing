@@ -1,0 +1,5 @@
+"*004"	"RAJENDRA SINGH"	0	""	F
+"A001"	"VIVEK GUPTA"	0	"mpapps.app@gmail.com"	F
+"A002"	"Mangesh PATIL"	9819603489	"patil.mangesh.v@outlook.com"	F
+"A003"	"CounterSale"	0	""	F
+"A005"	"DHARAM RAHUL"	0	"dharamrahul@gmail.com"	F

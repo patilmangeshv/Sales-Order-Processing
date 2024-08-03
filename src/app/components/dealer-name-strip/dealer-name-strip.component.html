@@ -1,0 +1,14 @@
+<ng-container>
+    <ion-skeleton-text *ngIf="!_isDataLoaded" animated class="alert dealer-success"></ion-skeleton-text>
+
+    <ng-container *ngIf="_isDataLoaded">
+        <div class="alert dealer-success" *ngIf="commonData.dealer">
+            <ion-label (click)="showUserDealerList()">
+                {{ commonData.dealer.dealerName }} ({{ commonData.dealer.companyCode }})</ion-label>
+        </div>
+        <div class="alert dealer-failure" *ngIf="!commonData.dealer">
+            <ion-label>Incorrect dealer code. Please specify the dealer code in the URL.
+            </ion-label>
+        </div>
+    </ng-container>
+</ng-container>

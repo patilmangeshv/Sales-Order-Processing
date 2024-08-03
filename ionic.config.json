@@ -1,0 +1,7 @@
+{
+  "name": "Order master",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

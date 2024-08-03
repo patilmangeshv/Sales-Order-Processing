@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-title>
+            Available dealers
+        </ion-title>
+
+        <!-- <ion-buttons slot="end">
+            <ion-button fill="outline" (click)="logoutClicked()">
+                Logout<ion-icon name="log-out-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons> -->
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="alert alert-success">
+        <ion-label>Select the dealer to switch!</ion-label>
+    </div>
+
+    <!-- Skeleton Text -->
+    <ng-container *ngIf="!isDataLoaded">
+        <ion-card *ngFor="let item of [].constructor(10)">
+            <ion-item>
+                <ion-label>
+                    <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                </ion-label>
+            </ion-item>
+
+            <ion-card-content>
+                <ion-row>
+                    <ion-col>
+                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+
+    <ng-container *ngIf="isDataLoaded">
+        <ng-container *ngIf="_dealerList.length<=0">
+            <ion-card>
+                <ion-item>
+                    <ion-label color="secondary">
+                        There are no dealers present.
+                    </ion-label>
+                </ion-item>
+            </ion-card>
+        </ng-container>
+        <ng-container *ngIf="_dealerList.length>0">
+            <ion-card *ngFor="let dealer of _dealerList">
+                <ion-item (click)="dealerSelected(dealer)">
+                    <ion-label class="ion-text-wrap">{{dealer.dealerName}} ({{dealer.companyCode}})
+                    </ion-label>
+                </ion-item>
+
+                <ion-card-content (click)="dealerSelected(dealer)">
+                    <ion-row>
+                        <!-- address -->
+                        <ion-label class="font-small">
+                            Address: {{dealer.address}}
+                        </ion-label>
+                    </ion-row>
+
+                    <ion-row>
+                        <!-- dealerEmailAddress -->
+                        <ion-label class="font-small">
+                            Email: {{dealer.dealerEmailAddress}}
+                        </ion-label>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ng-container>
+    </ng-container>
+</ion-content>

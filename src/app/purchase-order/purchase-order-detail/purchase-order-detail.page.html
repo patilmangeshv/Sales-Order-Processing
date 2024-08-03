@@ -1,0 +1,188 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="gotoOrderList()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>
+      Purchase order details
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="saveClicked()" [disabled]="!purchaseForm.valid || formMode=='VIEW'">
+        <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+  <app-dealer-name-strip [(isDataLoaded)]="isDataLoaded" [allowDealerChange]="false"></app-dealer-name-strip>
+
+  <form *ngIf="isDataLoaded" class="validations-form" [formGroup]="purchaseForm">
+    <!-- (ngSubmit)="onSubmit(purchaseForm.value)"> -->
+    <div *ngIf="commonData.dealer">
+      <ion-list class="inputs-list" lines="full">
+        <ion-list-header>
+          <ion-label class="header-title">Order details</ion-label>
+        </ion-list-header>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Order no:</ion-label>
+          <ion-input type="text" formControlName="orderNo" autofocus="true" clearInput>
+          </ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.orderNo">
+            <div class="error-message"
+              *ngIf="purchaseForm.get('orderNo').hasError(validation.type) && (purchaseForm.get('orderNo').dirty || purchaseForm.get('orderNo').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label position="floating"><span class="mandatory-field">*</span>Order date:</ion-label>
+          <ion-input type="date" formControlName="orderDate" clearInput>
+          </ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.orderDate">
+            <div class="error-message"
+              *ngIf="purchaseForm.get('orderDate').hasError(validation.type) && (purchaseForm.get('orderDate').dirty || purchaseForm.get('orderDate').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </ion-list>
+
+      <ion-list class="inputs-list">
+        <ion-list-header>
+          <ion-label class="header-title">Items</ion-label>
+          <ion-button (click)="addItemClicked()" [disabled]="formMode=='VIEW'">
+            <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-list-header>
+      </ion-list>
+
+      <ion-card>
+        <ion-card-content class="total-display">
+          <ion-label>Qty: {{totalQty | number:'1.0-1'}} - Amt: {{totalAmt | number:'1.2-2'}}</ion-label>
+        </ion-card-content>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.orderItems">
+            <div class="error-message"
+              *ngIf="purchaseForm.get('orderItems').hasError(validation.type) && (purchaseForm.get('orderItems').dirty || purchaseForm.get('orderItems').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </ion-card>
+
+      <ng-container formArrayName="orderItems">
+        <ng-container *ngFor="let item of orderItemsControlArray.controls; let i=index" [formGroupName]="i">
+          <ion-card>
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <img *ngIf="item.value.itemImageThumURL" [alt]="item.value.itemName"
+                  [src]="item.value.itemImageThumURL">
+                <img *ngIf="!item.value.itemImageThumURL" [alt]="item.value.itemName"
+                  src="../../../assets//icon//camera.png">
+              </ion-thumbnail>
+              <ion-label class="ion-text-wrap">{{item.value.itemName}}</ion-label>
+              <ion-icon name="close-circle-outline" (click)="removeItemClicked(i)" slot="end"></ion-icon>
+            </ion-item>
+
+            <ion-card-content>
+              <!-- stockQty -->
+              <ion-item class="input-item font-small">
+                <ion-label class="ion-text-wrap">Qty:</ion-label>
+                <ion-input type="number" inputmode="numeric" formControlName="stockQty" autocomplete="off"></ion-input>
+              </ion-item>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.stockQty">
+                  <div class="error-message"
+                    *ngIf="orderItemsControlArray.controls[i].get('stockQty').hasError(validation.type) && (orderItemsControlArray.controls[i].get('stockQty').dirty || orderItemsControlArray.controls[i].get('stockQty').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <!-- mrp -->
+              <ion-item class="font-small">
+                <ion-label class="ion-text-wrap">MRP (&#8377;):</ion-label>
+                <ion-input type="number" inputmode="numeric" formControlName="mrp" autocomplete="off"></ion-input>
+              </ion-item>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.mrp">
+                  <div class="error-message"
+                    *ngIf="orderItemsControlArray.controls[i].get('mrp').hasError(validation.type) && (orderItemsControlArray.controls[i].get('mrp').dirty || orderItemsControlArray.controls[i].get('mrp').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <!-- sellingPrice -->
+              <ion-item class="font-small">
+                <ion-label class="ion-text-wrap">Selling price (&#8377;): </ion-label>
+                <ion-input type="number" inputmode="numeric" formControlName="sellingPrice" autocomplete="off">
+                </ion-input>
+              </ion-item>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.sellingPrice">
+                  <div class="error-message"
+                    *ngIf="orderItemsControlArray.controls[i].get('sellingPrice').hasError(validation.type) && (orderItemsControlArray.controls[i].get('sellingPrice').dirty || orderItemsControlArray.controls[i].get('sellingPrice').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <!-- wholesalePrice -->
+              <ion-item class="font-small">
+                <ion-label class="ion-text-wrap">Wholesale price (&#8377;): </ion-label>
+                <ion-input type="number" inputmode="numeric" formControlName="wholesalePrice" autocomplete="off">
+                </ion-input>
+              </ion-item>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.wholesalePrice">
+                  <div class="error-message"
+                    *ngIf="orderItemsControlArray.controls[i].get('wholesalePrice').hasError(validation.type) && (orderItemsControlArray.controls[i].get('wholesalePrice').dirty || orderItemsControlArray.controls[i].get('wholesalePrice').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <br>
+              <ion-text class="font-small" slot="start">
+                Size: {{item.value.packageSize}} {{item.value.packageUnit}} Amt.: &#8377;
+                {{item.value.sellingPrice*item.value.stockQty | number:'1.2-2'}}
+              </ion-text>
+              <br><br>
+
+              <div [innerHTML]="item.value.itemDescription"></div>
+            </ion-card-content>
+          </ion-card>
+        </ng-container>
+      </ng-container>
+
+      <!-- <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!purchaseForm.valid">
+        Submit</ion-button> -->
+      <!-- <ion-footer>
+          <ion-toolbar>
+            <ion-title>
+              Footer
+            </ion-title>
+          </ion-toolbar>
+        </ion-footer> -->
+    </div>
+  </form>
+</ion-content>

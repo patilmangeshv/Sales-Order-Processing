@@ -1,0 +1,63 @@
+1. Add/Push and Remove Form fields dynamically to FormArray with Reactive Forms in Angular
+https://medium.com/aubergine-solutions/add-push-and-remove-form-fields-dynamically-to-formarray-with-reactive-forms-in-angular-acf61b4a2afe
+
+2. Iterative Reactive Forms in Angular6 with Custom Validators
+https://medium.com/@Shifs/iterative-reactive-forms-in-angular6-with-custom-validators-9c62504224aa
+
+3. Web App Manifest
+https://w3c.github.io/manifest/#shortcuts-member
+
+4. Handling hardware back button on mobile for modal forms.
+    Issue: When back button is used on modal form it don't close the modal form
+            but it navigates back to the previous page in the URL. If the URL is
+            the home page then it closes the app.
+    Solution: 1. Capture the back button event on the modal form and dismiss the modal.
+              2. Don't go back to the previous page after dismissing the modal
+              3. Remove any phantom history when the modal is dismissed
+    link: https://dev.to/nicolus/closing-a-modal-with-the-back-button-in-ionic-5-angular-9-50pk
+
+5. firebase CLI to get firebase indexes
+    firebase firestore:indexes
+
+6. Steps to initialise Cloud Functions.
+    1. Follow steps from 
+        https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md
+
+        This will add steps to configure the client app to allow sending notification 
+        and receive the notifications in console.
+    2. Follow below steps to add cloud function to send the notification.
+        a. Initialise Cloud Functions
+            firebase init functions
+        b. Deploy all functions
+            firebase deploy --only functions
+        c. Deploy specific Functions
+            firebase deploy --only functions:addMessage,functions:makeUppercase
+        d. Delete specific function
+            firebase functions:delete myFunction
+        e. Manage functions deployment and runtime options
+            https://firebase.google.com/docs/functions/manage-functions
+
+
+7. How to check cloud functions log
+firebase functions:log --only <FUNCTION_NAME>
+
+8. Cloud Functions
+Learn JavaScript Promises (Pt. 2) with a Firestore Trigger in Cloud Functions - Firecasts
+https://www.youtube.com/watch?v=652XeeKNHSk
+
+9. Firebase cloud messaging
+AngularFireMessaging
+https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md
+
+10. The Push Notifications Guide for Ionic & Capacitor
+by devdactic
+https://devdactic.com/push-notifications-ionic-capacitor/
+
+11. Compressing, resizing images API
+https://tinypng.com/developers/reference/nodejs
+
+1. How payment will be made after order placement?
+2. Item image size 56x56 px
+3. Dealer logo image size 78x78 px (minimum for 960x1704, changes as per the screen size)
+    explanation https://www.paintcodeapp.com/news/iphone-x-screen-demystified
+4. 

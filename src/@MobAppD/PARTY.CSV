@@ -1,0 +1,40 @@
+cmpny_cd,ac_code,descript,add_1,add_2,add_3,pin_cd,email,tel_no,food_licen,gstin,gstate_cd,acnt_id,sarea_cd,os_ac,pan_gir_no,srep_cd,disc_pc,close_mt,gsttr_ok,gst_regstr,is_retail
+3,"CTLUG","TASTRY LAGHU UDYOG","GALA NO.9/16,SHEETAL INDUSTRI","AL COMPLEX BEHIND CLASSIC STRI","P,VILL GOKHIVRE,GR.FLR VASAI-E",0,"Sales@tastry.co.in,tastry@gmai","8459535443","","27AALFT3029R1ZG","27","","*Z",T,"","",0,"0",T,"R",F
+3,"Co.2","G.NAVANEETHAM AGENCY [ S E L F ]","","","",0,"","","","","27","","",T,"","*DEF",0,"0",F,"U",F
+3,"Dr1","?????","DOMBIVALI","","",0,"","9920838159","","","27","","*Z",T,"","",0,"0",F,"U",F
+3,"Dr2","VIMAL","","","",0,"","9999999999","","","27","","*Z",T,"","*DEF",0,"0",F,"U",F
+3,"Cr1","SHANTI FOOD PROCESSING INDUSTRY","NAVI MUMBAI","","MUMBAI",400701,"","","","27ACSFS5287K1Z4","27","","*Z",T,"ACSFS5287K","*DEF",0," ",T,"R",F
+3,"Cr2","DAILY MARKETING SERVICES","SHOP NO 1&3 PAHELVI MANSION","MUMBAI","",400010,"","","10017022006094","27AAAFP4957H1Z1","27","","*Z",T,"AAAFP4957H","*DEF",0,"0",F,"U",F
+3,"Cr3"," -- ?","UNIT NO 9 GALA NO 7","ED ESTATE","MUMBAI",0,"","","","27AAFCC8600G1ZT","27","","*C",T,"AAFCC8600G","",0,"0",T,"R",F
+3,"Dr3","KATHRESH","DOMBIVLI  WEST","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Cr4","MUFFIN","","","",0,"","","","","27","","*C",T,"","*DEF",0," ",F,"U",F
+3,"Dr4","AMIT","DOMBIVLI WEST","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr5","ANIKET","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr6","????????","","","",0,"","","","","27","","*Z",T,"","",0,"0",F,"U",F
+3,"Dr7","SAMEER","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr8","RAVI","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr9","SIVA","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr10","DEVA","","","",0,"","","","27AAAFP4957H1Z1","27","","*Z",T,"AAAFP4957H","*DEF",0," ",F,"U",F
+3,"Dr11","VINOD","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr12","MANGESH","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr13","NIRMAL","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr14","SATISH","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Cr5","CRANBERRY FOODS PVT LTD","GREEN PARK2 SURVEYNO 175/2&176","/1 HISSA NO 2 VILLAGE POMAN VA","SAI EAST PALGHAR",401208,"","9029706642","","27AAFCC8600G1ZT","27","","*Z",T,"AAFCC8600G","*DEF",0," ",T,"R",F
+3,"Dr15","CHETAN","AMBARNATH","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr16","BURGER HOUSE","SANPADA","","",0,"","9137825728","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr17","BURGER  KATTA","BADLAPUR","","",0,"","7972474671","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr18","PRATIK","DOMBIVLIE","","",0,"","9769848525","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr19","INSTA BURG","PANVEL","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr20","YAMMY  BITE","KALYAN","","",0,"","9833081914","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr21","???????","","","",0,"","8422067926","","","27","","*Z",T,"","",0,"0",F,"U",F
+3,"Dr22","AKSHAT ENTERPRISES","BADLAPUR","","",0,"","9820920821","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr23","ROHAN","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr24","VIJAY","","","",0,"","","","24ABCPZ2287K1ZO","27","","*Z",T,"ABCPZ2287K","*DEF",0," ",F,"U",F
+3,"Dr25","GOLDEN BANQUET","GHODBUNDER ROAD","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr26","VIDEOTRON TRADING CO.","ULHASNAGAR","","",0,"","","","27ABCPZ2287K1ZO","27","","*Z",T,"ABCPZ2287K","*DEF",0," ",T,"R",F
+3,"Cr6","A.K BAKERY","VIKROLI WEST","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr27","NASEEM ENTERPRISES","ULHASNAGAR-4","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Cr7","REHMANIA BAKERY","KOPERKHAIRNE","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr28","DARSHANA AGENCY","KALYAN","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Dr29","DINESH GOSAVI","","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F
+3,"Cr8","KINGS BAKERY","MALAD","","",0,"","","","","27","","*Z",T,"","*DEF",0," ",F,"U",F

@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-title>
+            Stock items [{{recordCountSelected}}]
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button fill="outline" (click)="saveClicked()">
+                <ion-icon name="save"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar color="light" #search animated autocomplete="on" placeholder="Search by name or description"
+        (ionInput)="filterDataOnSearchText($event)"></ion-searchbar>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="circles"
+            refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <div class="alert alert-success">
+        <ion-label>Select the items to order. Quantity can be changed on order screen.</ion-label>
+    </div>
+
+    <ng-container>
+        <ion-card *ngFor="let item of itemList">
+            <ion-item (click)="itemSelected(item)">
+                <ion-thumbnail slot="start" size="small">
+                    <img *ngIf="item.itemImageThumURL" [alt]="item.itemName" [src]="item.itemImageThumURL">
+                    <img *ngIf="!item.itemImageThumURL" [alt]="item.itemName" src="../../../assets//icon//camera.png">
+                </ion-thumbnail>
+
+                <ion-label class="ion-text-wrap">{{item.itemName}}</ion-label>
+                <ion-icon name="checkmark-circle-outline" *ngIf="item.isItemSelected" slot="end"></ion-icon>
+                <ion-icon name="ellipse-outline" *ngIf="!item.isItemSelected" slot="end">
+                </ion-icon>
+            </ion-item>
+
+            <ion-card-content (click)="itemSelected(item)">
+                <ion-row>
+                    <ion-col size="6">
+                        <!-- Show mrp as strikethrough(</del>) if it is greater than sellingPrice in red color -->
+                        <!-- Rs symbol &#8377; -->
+                        <ion-label *ngIf="item.mrp>item.sellingPrice" class="font-small">
+                            <del>&#8377; {{item.mrp | number:'1.2-2'}}</del>
+                            <ion-text color="danger"> &#8377; {{item.sellingPrice | number:'1.2-2'}}</ion-text>
+                        </ion-label>
+
+                        <ion-label *ngIf="item.mrp<=item.sellingPrice" class="font-small">
+                            &#8377; {{item.sellingPrice | number:'1.2-2'}}
+                        </ion-label>
+                    </ion-col>
+                    <ion-col size="6">
+                        <ion-label class="font-small">{{item.packageSize}}{{item.packageUnit}}
+                        </ion-label>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <div [innerHTML]="item.itemDescription"></div>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+</ion-content>
